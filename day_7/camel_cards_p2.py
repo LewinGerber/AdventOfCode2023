@@ -33,22 +33,22 @@ def calculate_hand_values():
             score = score_hand(normalized_hand)
             sortable_hand_name = hand.replace("K", "B")
             sortable_hand_name = sortable_hand_name.replace("Q", "C")
-            sortable_hand_name = sortable_hand_name.replace("J", "D")
-            sortable_hand_name = sortable_hand_name.replace("T", "E")
-            sortable_hand_name = sortable_hand_name.replace("9", "F")
-            sortable_hand_name = sortable_hand_name.replace("8", "G")
-            sortable_hand_name = sortable_hand_name.replace("7", "H")
-            sortable_hand_name = sortable_hand_name.replace("6", "I")
-            sortable_hand_name = sortable_hand_name.replace("5", "J")
-            sortable_hand_name = sortable_hand_name.replace("4", "K")
-            sortable_hand_name = sortable_hand_name.replace("3", "L")
-            sortable_hand_name = sortable_hand_name.replace("2", "M")
+            sortable_hand_name = sortable_hand_name.replace("T", "D")
+            sortable_hand_name = sortable_hand_name.replace("9", "E")
+            sortable_hand_name = sortable_hand_name.replace("8", "F")
+            sortable_hand_name = sortable_hand_name.replace("7", "G")
+            sortable_hand_name = sortable_hand_name.replace("6", "H")
+            sortable_hand_name = sortable_hand_name.replace("5", "I")
+            sortable_hand_name = sortable_hand_name.replace("4", "J")
+            sortable_hand_name = sortable_hand_name.replace("3", "K")
+            sortable_hand_name = sortable_hand_name.replace("2", "L")
+            sortable_hand_name = sortable_hand_name.replace("J", "M")
             scored_hands.append(ScoredHand(score, hand, multiplier, sortable_hand_name))
 
         ranked_hands = sorted(scored_hands, key=lambda scoreHand: (-scoreHand.score, scoreHand.sortable_hand_name), reverse=True)
 
         for obj in ranked_hands:
-            print(f"Score: {obj.score}, Sortable Hand Name: {obj.sortable_hand_name}")
+            print(f"Score: {obj.score}, Hand Name: {obj.sortable_hand_name}, ")
 
         total_winnings = 0
         for index in range(len(ranked_hands)):
@@ -72,6 +72,17 @@ def score_hand(hand: list[str]):
             unique_cards[card] += 1
         else:
             unique_cards[card] = 1
+
+    if "J" in unique_cards:
+        number_of_j = unique_cards["J"]
+        unique_cards.pop("J")
+        if number_of_j == 5:
+            return 6
+        if unique_cards is {}:
+            return
+
+        key = max(unique_cards, key=unique_cards.get)
+        unique_cards[key] += number_of_j
 
     if len(unique_cards) == 2:
         for card in unique_cards:
